@@ -95,6 +95,10 @@ RIO_FONTE = "oficial:maratona-do-rio"
 RIO_TIPO_COLETA = "coleta_oficial_api_html_pdf"
 DURBAN_FONTE = "oficial:durban-international-marathon"
 DURBAN_TIPO_COLETA = "coleta_oficial_pdf_html_xlsx"
+BERLIN_2019_ANO = 2019
+BERLIN_2019_CSV = MARATONAS_DIR / "berlin" / "marathon-results_berlin_2019.csv"
+BERLIN_2019_FONTE = "github:AndrewMillerOnline/marathon-results"
+BERLIN_2019_TIPO_COLETA = "dataset_publico_github"
 MARATONAS_CANONICAS = [
     "berlin",
     "boston",
@@ -281,7 +285,17 @@ MANIFESTO_FONTES = [
         "origem_url": "https://www.kaggle.com/datasets/aiaiaidavid/berlin-marathons-data",
         "licenca": "CC0",
         "caminho_local": "dados/brutos/maratonas/berlin/Berlin_Marathon_data_1974_2019.csv",
-        "observacoes": "Resultados individuais; clima do canônico vem do Open-Meteo.",
+        "observacoes": "Resultados individuais de 2005 a 2018; em 2019 a fonte traz apenas registros masculinos e e substituida por berlin_github_2019.",
+    },
+    {
+        "fonte_id": "berlin_github_2019",
+        "status": "integrado_canonico",
+        "categoria": "resultados",
+        "maratona": "berlin",
+        "origem_url": "https://github.com/AndrewMillerOnline/marathon-results/blob/2e6219da8dcb4b1ef51a78b9412e5ab4aa9e85af/Berlin/results-2019.csv",
+        "licenca": "MIT",
+        "caminho_local": "dados/brutos/maratonas/berlin/marathon-results_berlin_2019.csv",
+        "observacoes": "Edicao de 2019 completa (homens e mulheres); 2018 da mesma fonte coincide com o Kaggle.",
     },
     {
         "fonte_id": "boston_github",
@@ -481,6 +495,10 @@ MAPEAMENTO_COLUNAS = [
     ("berlin_kaggle", "TIME", "canonica", "tempo_original", "copiar"),
     ("berlin_kaggle", "TIME", "canonica", "tempo_segundos", "HH:MM:SS -> segundos"),
     ("berlin_kaggle", "COUNTRY", "canonica", "pais_atleta", "trim; muitos NaN"),
+    ("berlin_github_2019", "gender", "canonica", "genero", "M/W -> M/F"),
+    ("berlin_github_2019", "time_full", "canonica", "tempo_original", "copiar"),
+    ("berlin_github_2019", "time_full", "canonica", "tempo_segundos", "HH:MM:SS -> segundos"),
+    ("berlin_github_2019", "nationality", "canonica", "pais_atleta", "trim"),
     ("boston_github_2005_2014", "gender", "canonica", "genero", "copiar"),
     ("boston_github_2005_2014", "official_time", "canonica", "tempo_original", "copiar"),
     ("boston_github_2005_2014", "seconds", "canonica", "tempo_segundos", "copiar"),
@@ -800,13 +818,13 @@ def load_berlin() -> pd.DataFrame:
     path = MARATONAS_DIR / "berlin" / "Berlin_Marathon_data_1974_2019.csv"
     df = pd.read_csv(path, low_memory=False)
     ini, fim = ESCOPO["berlin"]
-    df = df[df["YEAR"].between(ini, fim)].copy()
+    df = df[df["YEAR"].between(ini, fim) & (df["YEAR"] != BERLIN_2019_ANO)].copy()
     df = df[~df["YEAR"].isin(EXCLUIR_ANOS)]
     df["GENDER"] = df["GENDER"].str.strip().map({"male": "M", "female": "F"})
     df = df[df["GENDER"].isin(["M", "F"])]
     df["AGE"] = pd.to_numeric(df["AGE"], errors="coerce")
     df = df.dropna(subset=["AGE"])
-    out = pd.DataFrame(
+    kaggle = pd.DataFrame(
         {
             "ano": df["YEAR"].astype(int),
             "genero": df["GENDER"].astype(str),
@@ -815,8 +833,27 @@ def load_berlin() -> pd.DataFrame:
             "pais_atleta": limpar_pais(df["COUNTRY"]),
         }
     )
+    out = pd.concat([kaggle, load_berlin_2019()], ignore_index=True)
     log.info("Berlin: %s registros", f"{len(out):,}")
     return preparar_schema_base(out, "berlin")
+
+
+def load_berlin_2019() -> pd.DataFrame:
+    df = pd.read_csv(BERLIN_2019_CSV, low_memory=False)
+    df = df[df["year"] == BERLIN_2019_ANO].copy()
+    df["gender"] = df["gender"].str.strip().map({"M": "M", "W": "F"})
+    df = df[df["gender"].isin(["M", "F"])]
+    return pd.DataFrame(
+        {
+            "ano": df["year"].astype(int),
+            "genero": df["gender"].astype(str),
+            "tempo_segundos": hms_para_segundos(df["time_full"]),
+            "tempo_original": df["time_full"].astype(str).str.strip(),
+            "pais_atleta": limpar_pais(df["nationality"]),
+            "fonte": BERLIN_2019_FONTE,
+            "tipo_coleta": BERLIN_2019_TIPO_COLETA,
+        }
+    )
 
 
 def load_boston() -> pd.DataFrame:
@@ -1107,8 +1144,12 @@ def anexar_metadados_evento(df: pd.DataFrame, edicoes: pd.DataFrame) -> pd.DataF
         ]
     ]
     out = df.merge(meta, on=["evento_id", "maratona", "ano"], how="left")
-    out["fonte"] = out["maratona"].map(lambda value: META_EVENTO[value]["fonte"])
-    out["tipo_coleta"] = out["maratona"].map(lambda value: META_EVENTO[value]["tipo_coleta"])
+    fonte_padrao = out["maratona"].map(lambda value: META_EVENTO[value]["fonte"])
+    coleta_padrao = out["maratona"].map(lambda value: META_EVENTO[value]["tipo_coleta"])
+    out["fonte"] = out["fonte"].fillna(fonte_padrao) if "fonte" in out else fonte_padrao
+    out["tipo_coleta"] = (
+        out["tipo_coleta"].fillna(coleta_padrao) if "tipo_coleta" in out else coleta_padrao
+    )
     return out
 
 

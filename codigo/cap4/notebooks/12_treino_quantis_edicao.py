@@ -1092,8 +1092,8 @@ def validar_ablacao(ablacao: pd.DataFrame) -> None:
     # Pontos de controle de reprodutibilidade: medias da decomposicao nos
     # cinco alvos obtidas com o dataset117 publicado. As identidades
     # aritmeticas acima independem destes valores.
-    esperado_decomposicao = {'ridge': (1.5531, 1.5589, -4.459, 4.4532),
-     'hist_gbm': (1.988, 2.066, -0.3551, 0.2772)}
+    esperado_decomposicao = {'ridge': (1.5164, 1.5236, -4.8428, 4.8355),
+     'hist_gbm': (1.9362, 2.0447, -0.3585, 0.25)}
     efeitos = [
         "ganho_total", "efeito_centralizacao",
         "efeito_retirada_indicadora", "interacao",
@@ -1124,31 +1124,31 @@ def validar_regressoes(
     """
     baseline = {
         CENTRO_SENSIBILIDADE: {
-            "p10": (5.0343, 7.1057),
-            "p25": (6.2803, 8.5503),
-            "p50": (8.2009, 10.5667),
-            "p75": (9.9261, 12.8888),
-            "p90": (11.2331, 15.1752),
+            "p10": (4.9811, 7.0384),
+            "p25": (6.2098, 8.4932),
+            "p50": (8.1339, 10.5351),
+            "p75": (9.9202, 12.8783),
+            "p90": (11.3627, 15.2202),
         },
         CENTRO_PRIMARIO: {
-            "p10": (4.8741, 6.8759),
-            "p25": (5.7611, 8.4379),
-            "p50": (7.6551, 10.6971),
-            "p75": (9.9103, 13.2821),
-            "p90": (11.2365, 15.4406),
+            "p10": (4.8184, 6.8159),
+            "p25": (5.6906, 8.3865),
+            "p50": (7.5986, 10.6542),
+            "p75": (9.9363, 13.2811),
+            "p90": (11.349, 15.4905),
         },
     }
-    ridge_mae = {'media': {'p10': 4.8965,
-               'p25': 5.8824,
-               'p50': 7.2631,
-               'p75': 8.632,
-               'p90': 9.8623},
-     'mediana': {'p10': 4.8473,
-                 'p25': 5.687,
-                 'p50': 6.981,
-                 'p75': 8.5261,
-                 'p90': 9.8273}}
-    ridge_delta_rmse = {'p10': -0.0925, 'p25': -0.1346, 'p50': -0.1192, 'p75': -0.1052, 'p90': -0.0535}
+    ridge_mae = {'media': {'p10': 4.8359,
+               'p25': 5.7986,
+               'p50': 7.2032,
+               'p75': 8.6537,
+               'p90': 9.9802},
+     'mediana': {'p10': 4.765,
+                 'p25': 5.6008,
+                 'p50': 6.9903,
+                 'p75': 8.612,
+                 'p90': 9.8987}}
+    ridge_delta_rmse = {'p10': -0.0929, 'p25': -0.1194, 'p50': -0.0758, 'p75': -0.0851, 'p90': -0.0265}
     por_centro = {
         CENTRO_PRIMARIO: resultados_primarios,
         CENTRO_SENSIBILIDADE: resultados_media,
@@ -1193,36 +1193,36 @@ def validar_regressoes(
 
     # Celulas do protocolo D. As duas de alvo absoluto nao dependem do centro
     # e so existem na trilha primaria.
-    ablacao_mae = {'nao_se_aplica': {'M2s_ridge_semcat': {'p10': 7.048,
-                                            'p25': 9.163,
-                                            'p50': 12.5335,
-                                            'p75': 16.8169,
-                                            'p90': 20.3674},
-                       'M4s_hist_gbm_semcat': {'p10': 5.4563,
-                                               'p25': 6.1477,
-                                               'p50': 8.2388,
-                                               'p75': 10.6947,
-                                               'p90': 12.7887}},
-     'mediana': {'M2ai_ridge_anom_cat': {'p10': 4.8313,
-                                         'p25': 5.6815,
-                                         'p50': 6.9799,
-                                         'p75': 8.529,
-                                         'p90': 9.8181},
-                 'M4ai_hist_gbm_anom_cat': {'p10': 4.14,
-                                            'p25': 5.135,
-                                            'p50': 6.413,
-                                            'p75': 7.4964,
-                                            'p90': 8.0363}},
-     'media': {'M2ai_ridge_anom_cat': {'p10': 4.8806,
-                                       'p25': 5.8642,
-                                       'p50': 7.2498,
-                                       'p75': 8.6204,
-                                       'p90': 9.8455},
-               'M4ai_hist_gbm_anom_cat': {'p10': 4.2396,
-                                          'p25': 5.3238,
-                                          'p50': 6.9455,
-                                          'p75': 7.327,
-                                          'p90': 7.5667}}}
+    ablacao_mae = {'nao_se_aplica': {'M2s_ridge_semcat': {'p10': 7.1028,
+                                            'p25': 9.5179,
+                                            'p50': 12.7202,
+                                            'p75': 17.5296,
+                                            'p90': 20.7919},
+                       'M4s_hist_gbm_semcat': {'p10': 5.3127,
+                                               'p25': 6.1659,
+                                               'p50': 8.0723,
+                                               'p75': 10.694,
+                                               'p90': 12.8236}},
+     'mediana': {'M2ai_ridge_anom_cat': {'p10': 4.7514,
+                                         'p25': 5.5977,
+                                         'p50': 6.9827,
+                                         'p75': 8.6113,
+                                         'p90': 9.8876},
+                 'M4ai_hist_gbm_anom_cat': {'p10': 4.0967,
+                                            'p25': 5.1657,
+                                            'p50': 6.2432,
+                                            'p75': 7.4342,
+                                            'p90': 8.1127}},
+     'media': {'M2ai_ridge_anom_cat': {'p10': 4.8157,
+                                       'p25': 5.7793,
+                                       'p50': 7.1912,
+                                       'p75': 8.641,
+                                       'p90': 9.9638},
+               'M4ai_hist_gbm_anom_cat': {'p10': 4.1671,
+                                          'p25': 5.4082,
+                                          'p50': 6.8588,
+                                          'p75': 7.1583,
+                                          'p90': 7.5079}}}
     for centro, por_modelo in ablacao_mae.items():
         resultados = (
             resultados_media
