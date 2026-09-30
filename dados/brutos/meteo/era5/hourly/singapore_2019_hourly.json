@@ -1,0 +1,39 @@
+{
+  "url": "https://archive-api.open-meteo.com/v1/archive",
+  "parametros": {
+    "latitude": 1.28967,
+    "longitude": 103.85007,
+    "start_date": "2019-11-30",
+    "end_date": "2019-12-01",
+    "hourly": "temperature_2m,relative_humidity_2m,dew_point_2m,wet_bulb_temperature_2m,apparent_temperature,precipitation,wind_speed_10m,wind_gusts_10m,wind_direction_10m,shortwave_radiation",
+    "timezone": "Asia/Singapore",
+    "wind_speed_unit": "ms",
+    "temperature_unit": "celsius",
+    "precipitation_unit": "mm",
+    "models": "era5"
+  },
+  "coletado_em": "2026-09-08T14:18:14.977006+00:00",
+  "resposta": {
+    "latitude": 1.5,
+    "longitude": 103.75,
+    "generationtime_ms": 8.33439826965332,
+    "utc_offset_seconds": 28800,
+    "timezone": "Asia/Singapore",
+    "timezone_abbreviation": "GMT+8",
+    "elevation": 15.0,
+    "hourly_units": {
+      "time": "iso8601",
+      "temperature_2m": "°C",
+      "relative_humidity_2m": "%",
+      "dew_point_2m": "°C",
+      "wet_bulb_temperature_2m": "°C",
+      "apparent_temperature": "°C",
+      "precipitation": "mm",
+      "wind_speed_10m": "m/s",
+      "wind_gusts_10m": "m/s",
+      "wind_direction_10m": "°",
+      "shortwave_radiation": "W/m²"
+    }
+  },
+  "csv_sha256": "7fb769a85a4cf2b4badfa8ad1667ebd7b052a37648cde83b200a5baa24e3b703"
+}

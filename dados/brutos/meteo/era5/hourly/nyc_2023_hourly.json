@@ -1,0 +1,39 @@
+{
+  "url": "https://archive-api.open-meteo.com/v1/archive",
+  "parametros": {
+    "latitude": 40.712,
+    "longitude": -74.006,
+    "start_date": "2023-11-05",
+    "end_date": "2023-11-05",
+    "hourly": "temperature_2m,relative_humidity_2m,dew_point_2m,wet_bulb_temperature_2m,apparent_temperature,precipitation,wind_speed_10m,wind_gusts_10m,wind_direction_10m,shortwave_radiation",
+    "timezone": "America/New_York",
+    "wind_speed_unit": "ms",
+    "temperature_unit": "celsius",
+    "precipitation_unit": "mm",
+    "models": "era5"
+  },
+  "coletado_em": "2026-09-06T00:51:19.757270+00:00",
+  "resposta": {
+    "latitude": 40.75,
+    "longitude": -74.0,
+    "generationtime_ms": 6.79934024810791,
+    "utc_offset_seconds": -14400,
+    "timezone": "America/New_York",
+    "timezone_abbreviation": "GMT-4",
+    "elevation": 19.0,
+    "hourly_units": {
+      "time": "iso8601",
+      "temperature_2m": "°C",
+      "relative_humidity_2m": "%",
+      "dew_point_2m": "°C",
+      "wet_bulb_temperature_2m": "°C",
+      "apparent_temperature": "°C",
+      "precipitation": "mm",
+      "wind_speed_10m": "m/s",
+      "wind_gusts_10m": "m/s",
+      "wind_direction_10m": "°",
+      "shortwave_radiation": "W/m²"
+    }
+  },
+  "csv_sha256": "50d940af7295bd1b9ee50beeccc07612706fcd1fc116db4b0301199a79ecc948"
+}
