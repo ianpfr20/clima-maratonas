@@ -85,4 +85,4 @@ Os registros por atleta não estão no repositório. O dataset canônico tem cer
 
 ## Citação
 
-I. P. de Freitas, "Impacto das condições climáticas no desempenho coletivo em maratonas: uma análise de dados," Projeto de Graduação, Escola Politécnica, Universidade Federal do Rio de Janeiro, Rio de Janeiro, 2026.
+FREITAS, Ian P., "Impacto das condições climáticas no desempenho coletivo em maratonas: uma análise de dados," Projeto de Graduação, Engenharia de Computação e Informação, Escola Politécnica, Universidade Federal do Rio de Janeiro, Rio de Janeiro, 2026.
