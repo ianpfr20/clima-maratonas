@@ -10,8 +10,8 @@ Os dois datasets têm uma linha por edição, 45 colunas e nenhum valor ausente.
 
 | Pasta | Edições | Maratonas |
 | --- | --- | --- |
-| `dataset117/` | 117 | Berlim, Boston, Chicago, Durban, Honolulu, Long Beach, Maui, Nova York, Rio de Janeiro, Savannah e Singapura, de 2005 a 2025 |
-| `dataset49/` | 49 | Boston (15), Chicago (17) e Nova York (17) |
+| `dataset117/` | 117 | Berlim (15), Boston (15), Chicago (17), Durban (3), Honolulu (15), Long Beach (10), Maui (5), Nova York (17), Rio de Janeiro (3), Savannah (9) e Singapura (8), de 2005 a 2025 |
+| `dataset49/` | 49 | Boston (15), Chicago (17) e Nova York (17), de 2005 a 2024 |
 
 O `dataset49` é o subconjunto do `dataset117` formado pelas maratonas situadas entre 40 °N e 43 °N com pelo menos quinze edições. Ele preserva todas as colunas e seleciona apenas as linhas dessas três provas.
 
